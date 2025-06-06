@@ -1,0 +1,248 @@
+/* Paste this entire code block into src/App.css */
+
+/* === AI SIGIL HAMBURGER ANIMATION === */
+
+.hamburger-button {
+  /* Container for the lines */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6px; /* Give the lines some space to move */
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  border: none; /* Make sure there's no default button border */
+  background: transparent; /* Make sure there's no default button background */
+}
+
+.hamburger-button:hover {
+  transform: scale(1.1);
+}
+
+.hamburger-line {
+  /* The base style for all three lines */
+  width: 100%;
+  height: 2px;
+  background-color: #F5F5DC; /* Your 'cream' color. Change if needed. */
+  border-radius: 2px;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transform-origin: center;
+}
+
+
+/* --- THE "OPEN" STATE ANIMATION --- */
+/* When the button has the 'is-open' class, the lines transform */
+
+/* TOP LINE: Moves down and rotates into the first slash of the 'X' */
+.hamburger-button.is-open .line-1 {
+  transform: translateY(8px) rotate(45deg);
+}
+
+/* MIDDLE LINE: Vanishes with a digital 'glitch' effect */
+.hamburger-button.is-open .line-2 {
+  animation: glitch-out 0.4s forwards;
+}
+
+/* BOTTOM LINE: Moves up and rotates into the second slash of the 'X' */
+.hamburger-button.is-open .line-3 {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+
+/* --- THE "GLITCH" KEYFRAMES --- */
+/* This makes the middle line disappear in a unique way */
+@keyframes glitch-out {
+  0% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  20% {
+    /* Shrink and fragment */
+    transform: scaleX(0.5) translateX(10px);
+    opacity: 0.5;
+    background-color: #8B0000; /* Flash of blood-red */
+  }
+  40% {
+    /* Jump to the other side */
+    transform: scaleX(0.8) translateX(-20px);
+    opacity: 1;
+  }
+  80% {
+    /* A final flicker before disappearing */
+    transform: scaleX(0.2);
+    opacity: 0.2;
+    background-color: white; /* Flash of white light */
+  }
+  100% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+}
+
+/* --- OPTIONAL: Glitch effect on the button container itself --- */
+/* This adds a subtle "reality tear" effect on click */
+.hamburger-button.is-open::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: #8B0000;
+  animation: container-glitch 0.2s forwards;
+}
+
+@keyframes container-glitch {
+  0% { clip-path: polygon(0 0, 100% 0, 100% 20%, 0 20%); }
+  20% { clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%); }
+  40% { clip-path: polygon(0 80%, 100% 80%, 100% 100%, 0 100%); }
+  60% { clip-path: polygon(0 10%, 100% 10%, 100% 15%, 0 15%); }
+  80% { clip-path: polygon(0 60%, 100% 60%, 100% 70%, 0 70%); }
+  100% { clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); } /* Disappears */
+}
+/* === THE CHAMBERS - KEYHOLE TO THE VOID STYLES === */
+
+.chambers-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  color: #F5F5DC; /* cream */
+  padding: 2rem;
+  text-align: center;
+  font-family: 'Lora', serif;
+  overflow: hidden;
+  position: relative;
+  transition: opacity 0.5s ease-out;
+}
+
+/* Dynamic particle background */
+.chambers-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.1;
+  animation: particle-drift 80s linear infinite;
+}
+
+@keyframes particle-drift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-200px, -200px); }
+}
+
+/* Animate the text materializing from a blur */
+.chambers-content {
+  animation: blur-in 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  transition: opacity 0.5s ease-out;
+}
+
+@keyframes blur-in {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+/* The Portal Button */
+.portal-button-container {
+  margin-top: 3rem;
+  animation: blur-in 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation-delay: 0.5s; /* Appears after the text */
+  opacity: 0; /* Start hidden for animation */
+}
+
+.portal-button {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 2px solid rgba(139, 0, 0, 0.5); /* Faint blood-red border */
+  background-color: rgba(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+  color: #F5F5DC;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  animation: portal-pulse 4s infinite ease-in-out;
+  overflow: hidden; /* Crucial for the peek effect */
+}
+
+@keyframes portal-pulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(139,0,0,0.4), inset 0 0 10px rgba(139,0,0,0.3); }
+  50% { box-shadow: 0 0 30px rgba(139,0,0,0.8), inset 0 0 15px rgba(139,0,0,0.5); }
+}
+
+/* The "Peek" effect on hover - shows a glimpse of the next room */
+.portal-peek {
+  position: absolute;
+  inset: 0;
+  background-image: url('/fragrance-room-glimpse.jpg'); /* << CREATE & USE an image for the next room */
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.2);
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.portal-button:hover .portal-peek {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.portal-text {
+  position: relative; /* Ensure text is above the peek effect */
+  z-index: 2;
+  transition: letter-spacing 0.5s ease;
+}
+
+.portal-button:hover .portal-text {
+  letter-spacing: 2px; /* Text spreads out on hover */
+}
+
+
+/* --- THE NAVIGATION TRANSITION --- */
+
+/* Add a new pseudo-element for the iris wipe */
+.chambers-container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px; /* Start at button size */
+  height: 150px;
+  border-radius: 50%;
+  background: black;
+  transform: translate(-50%, -50%) scale(0); /* Start scaled down */
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* When navigating, trigger the animations */
+.chambers-container.navigating .chambers-content,
+.chambers-container.navigating .portal-button-container {
+  opacity: 0; /* Fade out the content */
+}
+
+/* Animate the iris wipe to fill the screen */
+.chambers-container.navigating::after {
+  animation: iris-wipe 1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes iris-wipe {
+  from { transform: translate(-50%, -50%) scale(0); }
+  to { transform: translate(-50%, -50%) scale(30); } /* Scale large enough to cover the screen */
+}
